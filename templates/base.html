@@ -5,8 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <script src="https://kit.fontawesome.com/b539610fee.js" crossorigin="anonymous"></script>
 </head>
 <body>
+  {% if request.user.is_authenticated %}
+    <form action="{% url 'accounts:logout' %}" method="POST">
+      {% csrf_token %}
+      <input type="submit" value="logout">
+    </form>
+  {% else %}
+    <a href="{% url 'accounts:login' %}">LOGIN</a>
+    <a href="{% url 'accounts:signup' %}">SIGNUP</a>
+  {% endif %}
   {% block content %}
   {% endblock content %}
 </body>

@@ -10,4 +10,7 @@
   <p>내용: {{ article.content }}</p>
   <p>작성시각: {{ article.created_at }}</p>
   <p>수정시각: {{ article.updated_at }}</p>
+  <hr>
+  <a href="{% url 'articles:index' %}">BACK</a>
+
 {% endblock content %}

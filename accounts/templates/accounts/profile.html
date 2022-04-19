@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>PROFILE</h1>
+  <h2>{{ person.username }}님의 프로필 !</h2>
+
+  {% with followers=person.followers.all followings=person.followings.all %}
+    <div>
+      팔로워: {{ followers|length }} / 팔로우: {{ followings|length }}
+    </div>
+    <div>
+      {% if user != person %}
+        <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+          {% csrf_token %}
+          {% if user in followers %}
+            <input type="submit" value="언팔로우">
+            <span style="color:black"><i class="fa-solid fa-heart"></i></span>
+          {% else %}
+            <input type="submit" value="팔로우">
+            <span style="color:red"><i class="fa-solid fa-heart"></i></span>
+          {% endif %}
+        </form>
+      {% endif %}
+    </div>
+  {% endwith %}
+  <hr>
+  <h2>{{ person.username }}'s followers</h2>
+  {% for person in person.followers.all %}
+    <p>{{ person.username }}</p>
+  {% endfor %}
+
+  <hr>
+  <h2>{{ person.username }}'s followings</h2>
+  {% for person in person.followings.all %}
+    <p>{{ person.username }}</p>
+  {% endfor %}
+  <a href="{% url 'articles:index' %}">BACK</a>
+  
+
+{% endblock content %}
