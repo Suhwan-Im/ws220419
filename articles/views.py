@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_http_methods
 from .models import Article
 from .forms import ArticleForm
 
@@ -10,12 +11,14 @@ def index(request):
     }
     return render(request, 'articles/index.html', context)
 
-
+@require_http_methods(['GET', 'POST'])
 def create(request):
     if request.method == "POST":
         form = ArticleForm(request.POST)
         if form.is_valid():
-            article = form.save()
+            article = form.save(commit=False)
+            article.user_id = request.user
+            article.save()
             return redirect('articles:detail', article.pk)
     else:
         form = ArticleForm()

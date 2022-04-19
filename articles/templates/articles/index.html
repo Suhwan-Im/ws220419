@@ -2,6 +2,7 @@
 
 {% block content %}
   <h1>INDEX</h1>
+  <a href="{% url 'articles:create' %}">CREATE</a>
   <hr>
 
   {% for article in articles %}
